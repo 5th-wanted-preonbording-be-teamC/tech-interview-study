@@ -149,3 +149,102 @@
   - JSONField
 
     JSON 데이터 지원.
+
+### 관계에 따른 Field
+
+- ForeignKey
+  
+  외래키. 다대일 관계 시 사용. 외래키를 가져올 모델(`to`)과 참조한 개체가 사라졌을 때 처리할 방법(`on_delete`) 필수.
+
+  - ForeignKey.to
+    
+    모델 클래스 혹은 해당 클래스를 표현하는 문자열. `'self'`지정 시 재귀적 관계 가능.
+
+  - ForeignKey.on_delete
+    
+    참조개체가 삭제되었을 때 처리하는 방법.
+
+
+    - CASCADE
+
+      참조된 개체 삭제 시 참조한 개체도 모두 삭제.
+
+    - PROTECT
+
+      참조하고 있는 개체가 존재할 경우 삭제 방지.
+
+    - RESTRICT
+
+      기본적으로는 PROTECT와 동일. 참조된 개체와 참조한 개체가 동시에 참조하는 공통 참조 개체가 존재하고, 해당 개체에 대해 두 개체 모두 CASCADE이며, 공통 참조 개체가 삭제되는 경우 삭제 허용.
+      ```Python
+      class Artist(models.Model):
+          name = models.CharField(max_length=10)
+
+      class Album(models.Model):
+          artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+
+      class Song(models.Model):
+          artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+          album = models.ForeignKey(Album, on_delete=models.RESTRICT)
+      
+      # Album이 삭제될 경우 참조한 Song이 존재한다면 RestrictedError 발생
+      # Artist가 삭제될 경우 참조한 Album과 Song 모두 문제 없이 삭제
+      ```
+
+    - SET_NULL
+
+      참조된 개체 삭제시 null로 설정. null로 설정 가능해야함.(`null=True`)
+
+    - SET_DEFAULT
+
+      참조된 개체 삭제시 default 값으로 설정. 
+
+      default인자가 지정되어 있어야함.(`default=...`)
+
+    - SET(...)
+
+      SET_DEFAULT과 동일하나 Callable 객체 전달 가능.
+      ```python
+      def get_sentinel_user():
+          return AnotherModel.objects.get_or_create(username='deleted')[0]
+
+      class MyModel(models.Model):
+          user = models.ForeignKey(
+              AnotherModel,
+              on_delete=models.SET(get_sentinel_user),
+          )
+    ```
+
+    - DO_NOTHING
+
+      참조된 개체가 사라져도 아무 변경 없음. [IntegrityError](https://docs.djangoproject.com/ko/4.1/ref/exceptions/#django.db.IntegrityError) 발생 가능.
+  
+  - ForeignKey.to_field
+    
+    키 값으로 참조할 값. 기본적으로 primary 키 값. 만약 다른 값을 지정한다면 해당 값은 유일해야함.(`unique=True`)
+
+- ManyToManyField
+  
+  다대다 관계. 
+  - ManyToManyField.through
+    
+    다대다 관계에서 추가적인 값을 저장할 때 필요. 추가 모델을 만들어 지정.
+    ```python
+    # https://baecode.tistory.com/44
+    class User(models.Model):
+       ...         
+
+    class Post(models.Model):
+        like = models.ManyToManyField(User,through="Like")
+        ...
+      
+      class Like(models.Model):
+        user = models.ForignKey(User, on_delete=models.CASCADE)
+        post = models.ForignKey(Post, on_delete=models.CASCADE)
+        created_at = models.DateField(auto_now_add = True)
+        ...
+    ```
+
+- OneToOneField
+
+  일대일 관계. 유일성이 보장된 외래키 필드(`ForeignKey(..., unique=True)`)와 비슷하나 역추적이 가능.
