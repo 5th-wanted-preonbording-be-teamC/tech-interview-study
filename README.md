@@ -4,7 +4,7 @@
 
 # :one: 1주차
 - 김동현
-  
+  - [Serializer](Python/Django/Serializer.md)
 - 이찬행
   - [Field](Python/Django/Field.md)
 - 이호진
