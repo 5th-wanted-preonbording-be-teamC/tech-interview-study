@@ -1,5 +1,3 @@
-<img src="https://www.django-rest-framework.org/img/logo.png" />
-
 # Serializer(직렬화)
 > 직렬화(Serializer)란? 쿼리셋, 모델 인스턴스 등의 복잡한 데이터들를 json/xml등의 형태로 데이터를 변화해주는 어뎁터라고 생가가하면 된다. 반대로 json/xaml형태의 데이터를 원데이터 형태로 복원하는 형태를 역직렬화(Deserializer)라고 한다.
 
