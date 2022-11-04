@@ -13,5 +13,8 @@
 
 # :two: 2주차
 
+- 김동현
+- 이찬행
+  - [JWT](BE/jwt.md)
 - 이호진
   - [데이터베이스 인덱스란?](Database/index.md)
