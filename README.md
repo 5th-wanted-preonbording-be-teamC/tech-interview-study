@@ -14,6 +14,7 @@
 # :two: 2주차
 
 - 김동현
+  - [트랜잭션 격리 수준](Database/transaction-isolation-level.md)
 - 이찬행
   - [JWT](BE/jwt.md)
 - 이호진
