@@ -1,6 +1,12 @@
-# tech-interview-study
+# Tech Interview Study
 
 면접 스터디
+
+- [Tech Interview Study](#tech-interview-study)
+- [:one: 1주차](#one-1주차)
+- [:two: 2주차](#two-2주차)
+- [:three: 3주차](#three-3주차)
+
 
 # :one: 1주차
 
@@ -19,3 +25,10 @@
   - [JWT](BE/jwt.md)
 - 이호진
   - [데이터베이스 인덱스란?](Database/index.md)
+
+# :three: 3주차
+
+- 김동현
+- 이찬행
+  - [암호화](Security/Cipher.md)
+- 이호진
