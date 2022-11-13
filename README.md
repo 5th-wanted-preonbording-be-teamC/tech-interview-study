@@ -29,6 +29,7 @@
 # :three: 3주차
 
 - 김동현
+  - [Redis](Database/redis.md)
 - 이찬행
   - [암호화](Security/Cipher.md)
 - 이호진
